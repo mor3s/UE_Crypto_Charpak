@@ -1,9 +1,9 @@
 # coding: utf-8
 
 
-import os
+import os, operator
 
-with open("./Codes/message4.txt", 'r') as file:
+with open("./Codes/message6.txt", 'r') as file:
     # on fait des choses avec le fichier
     message = file.read() # chaîne de caractère avec le contenu du fichier
     # bla
@@ -40,7 +40,7 @@ def Caesar(code,key):
     d = []
     for i in range(len(code)):
         d.append(chr((ord(code[i]) + key)%1000))      
-    return ''.join(map(str, d)) 
+    return d
 
 def oddEven(code):
     odd = []
@@ -95,6 +95,8 @@ def M4(code):
 
 
 def cut(code,p):
+    """
+    """
     d = []
     for i in range(p):
         tmp = []
@@ -104,11 +106,43 @@ def cut(code,p):
     return d
 
 def glue(codes):
+    """
+    >>> m = [['a', 'a', 'a'], ['b', 'b', 'b']]
+    >>>glue(m)
+    "ababab"
+    """
     d = []
-    for i in range(len(codes[0])):
+    for i in range(round(sum(len(i) for i in codes)/len(codes))):
         for j in range(len(codes)):
-            d.append(codes[j][i])
+            try:
+                d.append(codes[j][i])
+            except:
+                pass
     return ''.join(map(str, d)) 
 
+def vigcle(code, nb_cle):
+    """
+    >>> m = "ahahah"
+    >>> vigcle(m, 2)
+    "      "
+    """
+    d = []
+    cuted = cut(code, nb_cle)
+    for c in cuted:
+        max_char = ord(max(freq(c).items(), key=operator.itemgetter(1))[0])
+        guess =  ord(" ") - max_char 
+        d.append(Caesar(c, guess))
+    return glue(d)
 
-    
+
+def Vigenere(code):
+    for i in range(1, 51):
+        dc = vigcle(code, i)
+        if "Joël" in dc:
+            f = open("message6_decrypted.txt", "a")
+            f.write(dc + "\n\n\n" +"-"*50 + "\n\n\n")
+            f.close()
+            print("wiiin")
+            # return
+            
+Vigenere(message)
