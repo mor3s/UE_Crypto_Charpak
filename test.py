@@ -1,17 +1,18 @@
 # coding: utf-8
 
 
-import os, operator, lib
+import os, operator
+from lib import *
 
-#with open("./Codes/message6.txt", 'r') as file:
+with open("D:/code/UE_Crypto_Charpak/Codes/message6.txt", 'r') as file:
     # on fait des choses avec le fichier
-    #message = file.read() # chaîne de caractère avec le contenu du fichier
+    message = file.read() # chaîne de caractère avec le contenu du fichier
     # bla
 # à partir d'ici, le fichier est fermé
 
 codetest  = ['M', ' ', 'S', 'G', 'S', 'R', 'O', 'M', 'S', 'E', 'E', 'E', 'N', 'E', 'A', ' ', 'C', 'T']
 
-print(lib.caesar("abc", 2))
+#print(caesar("abc", 2))
 
 def m1(code):
     for i in range(len(code)):
@@ -79,4 +80,4 @@ def vigenere(code):
             print("wiiin")
             # return
             
-#Vigenere(message)
+Vigenere(message)
