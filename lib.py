@@ -8,7 +8,7 @@ def read(adress = "D:/code/UE_Crypto_Charpak/Codes/message6.txt"):
         message = file.read() 
     return message
 
-
+#Complexity: O(n!n)
 def scytale(code,key):
     """
     Cypher and decypher Scytale messages
@@ -24,7 +24,7 @@ def scytale(code,key):
     return ''.join(map(str, d)) 
 
 
-
+#Complexity: O(n)
 def freq(code):
     """
     return a dic with the number of occurence of each char of the text given
@@ -42,7 +42,7 @@ def freq(code):
     return dic
 
 
-
+#Complexity: O(n)
 def caesar(code,key):
     """
     cypher/decypher message using caesar methode
@@ -58,6 +58,7 @@ def caesar(code,key):
 
 
 #obsolete function
+#Complexity: O(n)
 def oddEven(code):
     """
     put each odd and even char into separate list
@@ -76,7 +77,7 @@ def oddEven(code):
     return odd, even
 
 
-
+#Complexity: O(n)
 def cut(code,p):
     """
     cut message into p lists (extension of the "oddEven" function)
@@ -89,12 +90,13 @@ def cut(code,p):
     for i in range(p):
         tmp = []
         for j in range(i, len(code), p):
+            print(1)
             tmp.append(code[j])
         d.append(tmp)
     return d
 
 
-
+#Complexity: O(n² log(n))
 def glue(codes):
     """
     Reverse of cut function
@@ -113,7 +115,7 @@ def glue(codes):
                 pass
     return ''.join(map(str, d)) 
 
-
+#Complexity: O(n^5 log n)
 def vigenere(code, nb_cle):
     """
     Applie vigenere methode to cypher/decypher a message with vigenere methode
@@ -179,4 +181,6 @@ def enigma(message, key):
         [215, 216, 89, 97, 48, 193, 179, 241, 131, 172, 17, 102, 107, 10, 2, 121, 153, 164, 175, 143, 43, 203, 122, 134, 126, 64, 132, 23, 79, 250, 53, 152, 83, 56, 58, 184, 211, 69, 86, 19, 112, 162, 37, 125, 156, 151, 123, 109, 44, 88, 42, 251, 174, 142, 199, 113, 26, 163, 210, 65, 117, 232, 141, 50, 106, 15, 252, 81, 165, 119, 249, 66, 243, 205, 104, 240, 234, 183, 192, 130, 227, 185, 3, 39, 74, 145, 24, 35, 32, 218, 182, 148, 78, 129, 76, 248, 6, 140, 133, 136, 59, 194, 173, 25, 30, 222, 186, 105, 57, 158, 63, 84, 223, 157, 114, 159, 221, 92, 235, 9, 45, 225, 101, 54, 146, 49, 244, 36, 99, 233, 238, 47, 237, 91, 67, 128, 189, 100, 209, 188, 80, 93, 254, 161, 155, 41, 177, 33, 21, 85, 217, 51, 170, 62, 77, 70, 96, 168, 4, 94, 11, 61, 214, 0, 14, 231, 195, 190, 87, 7, 71, 207, 60, 236, 230, 180, 137, 213, 191, 68, 72, 197, 29, 147, 115, 187, 46, 12, 181, 38, 138, 246, 124, 166, 40, 27, 202, 201, 226, 176, 212, 204, 52, 149, 167, 196, 34, 220, 28, 98, 228, 13, 90, 224, 169, 135, 20, 16, 229, 75, 55, 154, 82, 150, 160, 198, 255, 1, 95, 118, 206, 120, 242, 116, 200, 110, 103, 22, 111, 178, 171, 5, 245, 139, 18, 253, 247, 31, 108, 208, 127, 8, 144, 239, 73, 219]
     ]
 
+#3 roues défini
+#prend 1 char qu'on veut coder
 

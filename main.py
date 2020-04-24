@@ -3,7 +3,8 @@ import os
 from lib import *
 from tqdm import tqdm
 
-
+# Vigenere complexity : O(n^3 log(n) + n^3 + n^2 + n)
+# Cesar complexity : O(n²n! + n) 
 
 def auto_decipher(code, n):
     if max(freq(code).items(), key=operator.itemgetter(1))[0] == ' ':
