@@ -8,7 +8,7 @@ def read(adress = "D:/code/UE_Crypto_Charpak/Codes/message6.txt"):
         message = file.read() 
     return message
 
-#Complexity: O(n!n)
+#Complexity: O(n(n+1)/2 * n)
 def scytale(code,key):
     """
     Cypher and decypher Scytale messages
@@ -90,13 +90,31 @@ def cut(code,p):
     for i in range(p):
         tmp = []
         for j in range(i, len(code), p):
-            print(1)
             tmp.append(code[j])
         d.append(tmp)
     return d
 
 
-#Complexity: O(n² log(n))
+# #Complexity: O(n^3)
+# def glue(codes):
+#     """
+#     Reverse of cut function
+#     in : codes (list of list) > lists you want to glue
+#     out : (str) > message glued
+#     >>> m = [['a', 'a', 'a'], ['b', 'b', 'b']]
+#     >>>glue(m)
+#     "ababab"
+#     """
+#     d = []
+#     for i in range(round(sum(len(k) for k in codes)/len(codes))):
+#         for j in range(len(codes)):
+#             try:
+#                 d.append(codes[j][i])
+#             except:
+#                 pass
+#     return ''.join(map(str, d)) 
+
+
 def glue(codes):
     """
     Reverse of cut function
@@ -106,14 +124,8 @@ def glue(codes):
     >>>glue(m)
     "ababab"
     """
-    d = []
-    for i in range(round(sum(len(i) for i in codes)/len(codes))):
-        for j in range(len(codes)):
-            try:
-                d.append(codes[j][i])
-            except:
-                pass
-    return ''.join(map(str, d)) 
+    flatten = lambda l: ''.join([item for sublist in l for item in sublist])
+    return flatten(cut(flatten(codes),len(codes[0])))
 
 #Complexity: O(n^5 log n)
 def vigenere(code, nb_cle):
@@ -137,38 +149,27 @@ def vigenere(code, nb_cle):
 
 
 #ENIGMA 
-# 
-#    L'algorithme de chiffrement d'Enigma est un chiffre poly-alphabétique similaire au chiffre de Vigenère. Le mécanisme de la machine est basé sur plusieurs rotors
-# (roues crantées mécaniques) qui effectuent chacune une permutation de l'alphabet (la permutation effectuée dépend de la position du rotor); le décalage obtenu
-# en composant les permutations effectuées par chacun des rotors. A chaque frappe sur le clavier, les rotors tournent de la manière suivante : le rotor 1 tourne
-# d'un cran à chaque frappe; à chaque tour complet du rotor 1, le rotor 2 tourne d'un cran; à chaque tour complet du rotor 2, le rotor 3 tourne d'un cran; à 
-# chaque tour complet du rotor 3, le rotor 4 tourne d'un cran. La clé secrète de ce cryptosystème est la position initiale des rotors. Le nombre de positions 
-# possibles des rotors est donc le produit du nombre de crans de chaque rotor. Ainsi, si chaque rotor possède n crans et qu'il y a m rotors, il faudra alors n^m
-# frappes pour que les roues reviennent dans leur position initiale. Par exemples pour des machines Enigma de 3 roues à 26 cran, on a déjà 17576 positions des 
-# rotors, ce qui empêche les attaques par analyse de fréquence auxquelles le chiffre de Vigenère était susceptible. Néanmoins 17576 reste une nombre raisonnablement
-# petit pour des attaques par force brute (surtout de nos jours avec un ordinateur récent).
-#
-#   L'algorithme utilisé pour coder le message suivant s'inspire du principe général de la machine. Plutôt que d'utiliser de se limiter à l'alphabet à 26 lettres, nous 
-# utilisons la table ASCII de 256 symbôles. Notre machine simulée utilise 3 roues qui effectuent des permutations sur l'ensemble de la table ASCII. La machine n'utilise
-# pas de panneau de connexion (afin de simplifier), ni de réflecteur (afin de supprimer une faille d'Enigma). Les 3 rotors sont sélectionnées dans une liste de 8 rotors
-# disponibles (numérotés 0 à 7) et mis dans un certain ordre et des positions initiales (chacune un entier entre 0 et 255).
-#
-# Une clé pour cette machine est donc constituée de :
-#   - le choix des rotors, indiqués par leurs trois numéros. Par exemple :  4, 0, 1- la position initiale de chaque rotors. Par exemple :  123, 34, 231
-#    
-# On code ici un rotor par un tableau d'entiers x = [x0,x1,x2,...,x255]. L'effet du rotor est de chiffre le charactère ascii de numero i en entrée par le caractère ascii de numéro x[i] en sortie.
-
 
 def initialise(gears,key):
-
-    return gears
-
-
-def rotate(gears):
-    rotated_gears = gears
-    return rotated_gears
+    gearspicked = []
+    for i in range(3):
+        gearspicked.append(rotate(gears[key[0][i]],gear.index(key[1][i])))    
+    return gearspicked
 
 
+def rotate(gear,i):
+    return gear[i:] + gear[:i]
+
+def encode(txt,gears):
+    encoded = ""
+    for i in range(len(txt)):
+        gears[0] = rotate(gears[0],1)
+        if not i%len(gears[0]):
+            gears[1] = rotate(gears[1],1)
+        if not i%(len(gears[0])*len(gears[0])):
+            gears[2] = rotate(gears[2],1)
+        encoded += chr(gears[2][gears[1][gears[0][ord(text[i])]]])
+    return encoded
 def enigma(message, key):
     gears = [
         [211, 173, 77, 35, 89, 44, 92, 214, 80, 54, 3, 157, 191, 72, 16, 21, 200, 164, 202, 61, 31, 34, 129, 68, 63, 43, 232, 136, 87, 197, 251, 74, 250, 1, 193, 104, 47, 10, 110, 160, 188, 124, 153, 171, 170, 6, 206, 161, 152, 96, 40, 62, 172, 144, 175, 168, 123, 38, 18, 242, 79, 53, 228, 48, 186, 184, 210, 140, 162, 143, 253, 150, 235, 145, 45, 91, 134, 248, 5, 90, 59, 75, 84, 249, 127, 76, 132, 66, 165, 57, 128, 217, 33, 11, 100, 203, 26, 121, 213, 247, 216, 199, 46, 114, 154, 101, 0, 115, 105, 4, 155, 187, 130, 147, 12, 41, 149, 219, 239, 107, 56, 39, 69, 70, 238, 234, 158, 15, 19, 196, 221, 236, 86, 65, 243, 231, 98, 182, 51, 177, 28, 71, 169, 241, 222, 117, 178, 112, 131, 167, 111, 141, 205, 25, 183, 229, 230, 122, 208, 135, 245, 113, 24, 223, 201, 13, 190, 64, 156, 106, 94, 185, 93, 126, 254, 212, 109, 81, 240, 237, 224, 218, 17, 215, 176, 194, 226, 220, 166, 83, 50, 73, 225, 118, 20, 108, 36, 14, 138, 244, 78, 67, 174, 8, 95, 159, 116, 37, 32, 2, 133, 139, 85, 227, 9, 179, 255, 102, 97, 233, 27, 42, 82, 195, 55, 246, 252, 30, 189, 207, 198, 58, 99, 7, 103, 163, 60, 120, 137, 142, 125, 22, 181, 209, 119, 23, 180, 88, 204, 52, 29, 146, 49, 148, 192, 151],
@@ -180,7 +181,7 @@ def enigma(message, key):
         [106, 72, 252, 44, 50, 129, 83, 110, 116, 119, 183, 182, 202, 22, 100, 225, 228, 181, 126, 26, 130, 36, 78, 209, 164, 5, 59, 43, 82, 24, 174, 138, 150, 97, 180, 233, 84, 235, 237, 96, 28, 221, 109, 159, 142, 132, 111, 128, 205, 11, 55, 191, 62, 115, 87, 18, 239, 224, 108, 139, 77, 135, 167, 219, 34, 112, 215, 236, 158, 151, 105, 157, 89, 155, 49, 67, 136, 131, 14, 52, 127, 73, 208, 211, 234, 216, 196, 254, 71, 137, 41, 51, 147, 247, 107, 161, 251, 194, 162, 39, 58, 175, 133, 206, 120, 184, 192, 232, 88, 148, 94, 91, 45, 176, 60, 122, 144, 65, 203, 198, 156, 1, 117, 10, 85, 160, 134, 190, 3, 32, 226, 249, 80, 21, 231, 223, 230, 118, 61, 48, 19, 171, 35, 245, 213, 4, 253, 57, 66, 165, 0, 244, 76, 204, 199, 143, 74, 125, 113, 99, 30, 248, 218, 47, 40, 163, 177, 20, 69, 93, 121, 27, 255, 238, 246, 222, 166, 200, 217, 29, 90, 68, 124, 243, 152, 146, 141, 12, 70, 170, 33, 86, 197, 63, 104, 229, 242, 186, 114, 101, 227, 95, 16, 212, 220, 201, 64, 98, 46, 240, 42, 2, 102, 38, 179, 9, 75, 189, 178, 154, 53, 241, 250, 37, 140, 8, 13, 145, 149, 31, 210, 25, 153, 17, 123, 185, 103, 168, 56, 173, 79, 188, 7, 92, 172, 54, 169, 193, 187, 214, 81, 207, 15, 195, 6, 23],
         [215, 216, 89, 97, 48, 193, 179, 241, 131, 172, 17, 102, 107, 10, 2, 121, 153, 164, 175, 143, 43, 203, 122, 134, 126, 64, 132, 23, 79, 250, 53, 152, 83, 56, 58, 184, 211, 69, 86, 19, 112, 162, 37, 125, 156, 151, 123, 109, 44, 88, 42, 251, 174, 142, 199, 113, 26, 163, 210, 65, 117, 232, 141, 50, 106, 15, 252, 81, 165, 119, 249, 66, 243, 205, 104, 240, 234, 183, 192, 130, 227, 185, 3, 39, 74, 145, 24, 35, 32, 218, 182, 148, 78, 129, 76, 248, 6, 140, 133, 136, 59, 194, 173, 25, 30, 222, 186, 105, 57, 158, 63, 84, 223, 157, 114, 159, 221, 92, 235, 9, 45, 225, 101, 54, 146, 49, 244, 36, 99, 233, 238, 47, 237, 91, 67, 128, 189, 100, 209, 188, 80, 93, 254, 161, 155, 41, 177, 33, 21, 85, 217, 51, 170, 62, 77, 70, 96, 168, 4, 94, 11, 61, 214, 0, 14, 231, 195, 190, 87, 7, 71, 207, 60, 236, 230, 180, 137, 213, 191, 68, 72, 197, 29, 147, 115, 187, 46, 12, 181, 38, 138, 246, 124, 166, 40, 27, 202, 201, 226, 176, 212, 204, 52, 149, 167, 196, 34, 220, 28, 98, 228, 13, 90, 224, 169, 135, 20, 16, 229, 75, 55, 154, 82, 150, 160, 198, 255, 1, 95, 118, 206, 120, 242, 116, 200, 110, 103, 22, 111, 178, 171, 5, 245, 139, 18, 253, 247, 31, 108, 208, 127, 8, 144, 239, 73, 219]
     ]
-
-#3 roues défini
-#prend 1 char qu'on veut coder
+    gearspicked = initialise(gears,key)
+    encoded = encode(message,gearspicked)
+    return encoded
 
