@@ -96,25 +96,6 @@ def cut(code,p):
 
 
 # #Complexity: O(n^3)
-# def glue(codes):
-#     """
-#     Reverse of cut function
-#     in : codes (list of list) > lists you want to glue
-#     out : (str) > message glued
-#     >>> m = [['a', 'a', 'a'], ['b', 'b', 'b']]
-#     >>>glue(m)
-#     "ababab"
-#     """
-#     d = []
-#     for i in range(round(sum(len(k) for k in codes)/len(codes))):
-#         for j in range(len(codes)):
-#             try:
-#                 d.append(codes[j][i])
-#             except:
-#                 pass
-#     return ''.join(map(str, d)) 
-
-
 def glue(codes):
     """
     Reverse of cut function
@@ -124,8 +105,27 @@ def glue(codes):
     >>>glue(m)
     "ababab"
     """
-    flatten = lambda l: ''.join([item for sublist in l for item in sublist])
-    return flatten(cut(flatten(codes),len(codes[0])))
+    d = []
+    for i in range(round(sum(len(k) for k in codes)/len(codes))):
+        for j in range(len(codes)):
+            try:
+                d.append(codes[j][i])
+            except:
+                pass
+    return ''.join(map(str, d)) 
+
+
+# def glue(codes):
+#     """
+#     Reverse of cut function
+#     in : codes (list of list) > lists you want to glue
+#     out : (str) > message glued
+#     >>> m = [['a', 'a', 'a'], ['b', 'b', 'b']]
+#     >>>glue(m)
+#     "ababab"
+#     """
+#     flatten = lambda l: ''.join([item for sublist in l for item in sublist])
+#     return flatten(cut(flatten(codes),len(codes[0])))
 
 #Complexity: O(n^5 log n)
 def vigenere(code, nb_cle):
@@ -153,7 +153,7 @@ def vigenere(code, nb_cle):
 def initialise(gears,key):
     gearspicked = []
     for i in range(3):
-        gearspicked.append(rotate(gears[key[0][i]],gear.index(key[1][i])))    
+        gearspicked.append(rotate(gears[key[0][i]], key[1][i]))    
     return gearspicked
 
 
@@ -162,14 +162,26 @@ def rotate(gear,i):
 
 def encode(txt,gears):
     encoded = ""
-    for i in range(len(txt)):
+    i = 0
+    r1 = 0 
+    r2 = 0
+    r3 = 0
+    while i < len(txt):
+        encoded += chr(gears[2][gears[1][gears[0][ord(txt[i])]]])
         gears[0] = rotate(gears[0],1)
-        if not i%len(gears[0]):
+        if r1==256:
             gears[1] = rotate(gears[1],1)
-        if not i%(len(gears[0])*len(gears[0])):
+            r1 = 0
+            r2+=1
+        if r2 == 256:
             gears[2] = rotate(gears[2],1)
-        encoded += chr(gears[2][gears[1][gears[0][ord(text[i])]]])
+            r2=0
+            r2+=1
+        print(i,r1,r2,r3)
+        r1+=1
+        i+=1
     return encoded
+
 def enigma(message, key):
     gears = [
         [211, 173, 77, 35, 89, 44, 92, 214, 80, 54, 3, 157, 191, 72, 16, 21, 200, 164, 202, 61, 31, 34, 129, 68, 63, 43, 232, 136, 87, 197, 251, 74, 250, 1, 193, 104, 47, 10, 110, 160, 188, 124, 153, 171, 170, 6, 206, 161, 152, 96, 40, 62, 172, 144, 175, 168, 123, 38, 18, 242, 79, 53, 228, 48, 186, 184, 210, 140, 162, 143, 253, 150, 235, 145, 45, 91, 134, 248, 5, 90, 59, 75, 84, 249, 127, 76, 132, 66, 165, 57, 128, 217, 33, 11, 100, 203, 26, 121, 213, 247, 216, 199, 46, 114, 154, 101, 0, 115, 105, 4, 155, 187, 130, 147, 12, 41, 149, 219, 239, 107, 56, 39, 69, 70, 238, 234, 158, 15, 19, 196, 221, 236, 86, 65, 243, 231, 98, 182, 51, 177, 28, 71, 169, 241, 222, 117, 178, 112, 131, 167, 111, 141, 205, 25, 183, 229, 230, 122, 208, 135, 245, 113, 24, 223, 201, 13, 190, 64, 156, 106, 94, 185, 93, 126, 254, 212, 109, 81, 240, 237, 224, 218, 17, 215, 176, 194, 226, 220, 166, 83, 50, 73, 225, 118, 20, 108, 36, 14, 138, 244, 78, 67, 174, 8, 95, 159, 116, 37, 32, 2, 133, 139, 85, 227, 9, 179, 255, 102, 97, 233, 27, 42, 82, 195, 55, 246, 252, 30, 189, 207, 198, 58, 99, 7, 103, 163, 60, 120, 137, 142, 125, 22, 181, 209, 119, 23, 180, 88, 204, 52, 29, 146, 49, 148, 192, 151],
@@ -184,4 +196,9 @@ def enigma(message, key):
     gearspicked = initialise(gears,key)
     encoded = encode(message,gearspicked)
     return encoded
+
+#test = '#¨à\r\x7f\x87\x1aå\x02¯höÝÃ\x95E&{\n«\x1fAr²i*%¥¿¾¬B\x9aZVä\x9cB}\x0f6\n\x8b_}È¥Å\x98¨sáº\x07¤\n\x04\x8bbúç\x82v¾Û«¢2\x9d\x07²\x17\x80xr\x98«8ëy5¬wÏ\x80-èW½¿D®úH\x89N×\x8bY\x87bþî\n\x0c\n-èX`ÿDac\x03Ø3E©¬>:\x1d\x08±\x1b\x05¦2ûÈ$u\x16ÆÄû)ãmM\x0cVu*ÀÐÃäÆ\x8d@y!;\x00[¼\x85¡F\x14vx\n\x9ehN{xìUpm>Ä®\x84eØ*ä\x91¶\xa0Æ"\x97\x98i³\x0e\x03½P6åN§\x7f\x1fÞ\x15¸16YH\x95þå\x9f¿\x1d.OB\x05\x16\x85-\x88= ¶=ª\x894gÂm\x12û&\x8fo\x16Zã\x83»GaS\x01°\x94òî8À6«\x08\x18\x10â.i\x7f×©\x16·\x1c\x8bÉúç\nðµÛ¬æ±£\x99\x83\x84J\x9eÊ¿\x0c\x94&\'5gx\x8d\x89¢\x1b\x8dÚn\x99hÕ©øäñð·³_\x19¿¥eÀc¥°Ö\x87\xa0\x0bá\x16ökZ¼\x95v\x08\x19\x7f´þ\x83MO\x85\x9fÂìpÛ\x8a\x81\x04\x06\t´\x90âÀ²EÕ\x96ª\x19\x11_\x879Z\x82Ç\xadúo\x06\x9fTÄjïµ\x1c\x0cÜ\x89Å[Ë¦c$\x92ó\x1f8\xad\x02\\dÑRÍ\x9a6M±\x8al±euâ\x14ö\x03û@\xa0\x1dZ\x85.3~\x88Á¡f×CìÙ>°\x0e{|[\x9c]ßµþâö\x01tJôdþ¾.\x9cR;i»_e_mÂ;!¶ÞÅ![@lÇá%\x98E\x82\x10º=©(À<½\x0c"Ö`\x86X²}÷9\x1cL¤ê¨\x8f¡>îøgÈêq*¤\x03Þ\x7fk)MGÑ-\x89Îf\x1f_\x8aý»\x8cCïÆ\x8f\x94¹X¼#ñýær\x15=«@\x93¸Ù/r0a¤á×$\x84\x9ds"¶Ð6n[¯MìíÊÎùñÂn½°¾bî$\x7fûÖ(InáL×H\x18\x1a\x93EÞP\x90\x07?¡\t\xa0\x0c¿¥Ø[W:^\r\x81½ÕÙåöúónÙû} îa\x8a\x16¨\x12Î\x18\xa0.\x89\x9c\x8bñ\x80c¼Ò\x12\x00\rè\x98Êû+\x07¦J\x04\x97ÿ1m\x9bô\x9abçÒ=üèàöXÍb»\x83¯«\x90\x80¾¼Äg»\x03æC.½\x82\x016¡T{\x9f\x1e\x8f¹¦Q!+\x00ùä\t\x19í\x8e\x8d\x8dñ\x11\x8aäû@SR\x81\x01ÑÞ^\x0få£\x12FI¥\'ôÄ÷(I[Ü±à:+\xa0®Ö\'´M\x87!?ÎÒ-[&3H\x9azuÒ´8Cém\x8d6ÂcÎMF3\x01\x81Ó\x1cù9\x9bñ1êÓÔ\x9fõB¡°ÜY´\x82½f·\x15ú74q\x8d\x16baøJWáëT'
+key = [[0,1,2],[0,0,0]]
+test = "Pour trouver la clé, il n'y aura pas tellement d'autre choix a priori que la force brute. Mais la force brute requiert ici un peu de finesse si l'on veut avoir fini avant la fin de l'univers ! En particulier, on peut essayer de tester rapidement si une clé de déchiffrement donne un message en clair qui ressemble à quelque chose (on peut par exemple penser à éliminer rapidement des cas avec des tests simples, et envisager des tests plus élaborées pour ensuite éliminer d'autres cas). Dans tous les cas, la tâche risque de prendre du temps, pensez à largement tester votre algorithme avant de vous lancer et bon déchiffrement ! Pour vous permettre de tester, voici ce que donne le présent paragraphe que je le chiffre avec mon algorithme en utilisant les 3 première roues ci-dessus, en position initiale 0,0,0 :"
+print(enigma(test,key))
 
