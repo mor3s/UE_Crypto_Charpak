@@ -7,11 +7,11 @@
 -Le dossier Presentation contient le diaporama de présentation de projet
 
 Messages décodés:
-[]message1
-[]message2
-[]message3
-[]message4
-[]message5
-[]message6
-[]message7
-[]message8
+[x]message1\\
+[x]message2\\
+[x]message3\\
+[x]message4\\
+[x]message5\\
+[x]message6\\
+[x]message7\\
+[x]message8
