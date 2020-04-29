@@ -37,7 +37,7 @@ def decipher(code,method, n):
 #decipher(read("D:/code/UE_Crypto_Charpak/Codes/message7.txt"),vigenere, 100)
 
 #auto_decipher(read("D:/code/UE_Crypto_Charpak/Codes/message1.txt") ,len(read("D:/code/UE_Crypto_Charpak/Codes/message1.txt")))
-auto_decipher(read("D:/code/UE_Crypto_Charpak/Codes/message7.txt"), 100)
+#auto_decipher(read("D:/code/UE_Crypto_Charpak/Codes/message7.txt"), 100)
 
 
 
