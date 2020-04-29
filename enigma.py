@@ -1,12 +1,6 @@
 #ENIGMA
 import itertools
-import os, operator
-
-
-def read(adress = "D:/code/UE_Crypto_Charpak/Codes/message8.txt"):
-    with open(adress, 'r', encoding='UTF-8') as file:
-        message = file.read() 
-    return message
+from lib import read
 
 def initialise(gears,key):
     gearspicked = []
@@ -90,3 +84,7 @@ message8 = read("D:/code/UE_Crypto_Charpak/Codes/message8.txt")
 
 key = [[5, 1, 7], [23, 234, 124]]
 print(enigma(message8,key, 256, 0, inv_gears))
+
+f = open("D:/code/UE_Crypto_Charpak/enigma.txt", "a", encoding='UTF-8')
+f.write(enigma(message8,key, 256, 0, inv_gears))
+f.close()

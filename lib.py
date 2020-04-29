@@ -96,25 +96,6 @@ def cut(code,p):
 
 
 # #Complexity: O(n^3)
-def glue(codes):
-    """
-    Reverse of cut function
-    in : codes (list of list) > lists you want to glue
-    out : (str) > message glued
-    >>> m = [['a', 'a', 'a'], ['b', 'b', 'b']]
-    >>>glue(m)
-    "ababab"
-    """
-    d = []
-    for i in range(round(sum(len(k) for k in codes)/len(codes))):
-        for j in range(len(codes)):
-            try:
-                d.append(codes[j][i])
-            except:
-                pass
-    return ''.join(map(str, d)) 
-
-
 # def glue(codes):
 #     """
 #     Reverse of cut function
@@ -124,13 +105,33 @@ def glue(codes):
 #     >>>glue(m)
 #     "ababab"
 #     """
-#     flatten = lambda l: ''.join([item for sublist in l for item in sublist])
-#     return flatten(cut(flatten(codes),len(codes[0])))
+#     d = []
+#     for i in range(round(sum(len(k) for k in codes)/len(codes))):
+#         for j in range(len(codes)):
+#             try:
+#                 d.append(codes[j][i])
+#             except:
+#                 pass
+#     return ''.join(map(str, d)) 
 
-#Complexity: O(n^5 log n)
+
+# #Complexity: O(n^3)
+def glue(codes):
+    """
+    Reverse of cut function
+    in : codes (list of list) > lists you want to glue
+    out : (str) > message glued
+    >>> m = [['a', 'a', 'a'], ['b', 'b', 'b']]
+    >>>glue(m)
+    "ababab"
+    """
+    flatten = lambda l: ''.join([item for sublist in l for item in sublist])
+    return flatten(cut(flatten(codes),len(codes[0])))
+
+#Complexity: O(n^3 + n^2 + n)
 def vigenere(code, nb_cle):
     """
-    Applie vigenere methode to cypher/decypher a message with vigenere methode
+    Apply vigenere method to cypher/decypher a message with vigenere method
     in : code (str/list) > message to cypher/decypher , nb_cle (int) 
     out : (str) > cyphered/decyphered message
     >>> m = "ahahah"
@@ -147,6 +148,8 @@ def vigenere(code, nb_cle):
 
 
 
+
+''' 
 
 #ENIGMA 
 
@@ -203,3 +206,4 @@ test2 = "Pour trouver la clé, il n'y aura pas tellement d'autre choix a priori 
 print(enigma(test,key))
 
 
+ '''
